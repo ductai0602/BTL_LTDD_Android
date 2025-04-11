@@ -6,11 +6,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -52,6 +54,8 @@ fun MainScree() {
     var from:String = ""
     var to:String = ""
     var classes:String = ""
+    var adultPassenger: String = ""
+    var childPassenger: String = ""
 
     StatusTopBarColor()
 
@@ -69,53 +73,6 @@ fun MainScree() {
             modifier = Modifier.fillMaxSize().background(color = colorResource(R.color.darkPurple2)).padding(paddingValues = paddingValues) //dieu chinh menu
         ) {
             item { TopBar() } //phan hien thi phia tren
-            item { //Phan noi dung
-                Column (modifier = Modifier
-                    .padding(32.dp)
-                    .background(colorResource(R.color.darkPurple), shape = RoundedCornerShape(20.dp))
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp, horizontal = 24.dp)
-                ) {
-                    //Chuyen tu Section(dia diem) nay
-                    YellowTitle("From")
-                    val locationName:List<String> = locations.map{it.Name} //Chon cac dia diem
-                    DropDownList(
-                        items = locationName,
-                        loadingIcon = painterResource(R.drawable.from_ic),
-                        hint = "Select Origin",
-                        showLocationLoading = showLocationLoading
-                    ) {
-                        selectedItem -> from = selectedItem
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    //Den Section(dia diem) nay
-                    YellowTitle("to")
-                    DropDownList(
-                        items = locationName,
-                        loadingIcon = painterResource(R.drawable.from_ic),
-                        hint = "Select Destination",
-                        showLocationLoading = showLocationLoading
-                    ) {
-                        selectedItem -> to = selectedItem
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    //class(rank) Section
-                    YellowTitle("class")
-                    val classItems = listOf("Business class", "First class", "Economy class")
-                    DropDownList(
-                        items = classItems,
-                        loadingIcon = painterResource(R.drawable.seat_black_ic),
-                        hint = "Select Class",
-                        showLocationLoading = showLocationLoading
-                    ) {
-                        selectedItem -> classes = selectedItem
-                    }
-                }
-            }
         }
     }
 }
