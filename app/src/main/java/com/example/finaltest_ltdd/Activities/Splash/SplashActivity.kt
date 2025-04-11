@@ -27,7 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.finaltest_ltdd.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.finaltest_ltdd.MainActivity
+import com.example.finaltest_ltdd.Activities.Dashboard.DashboardActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             SplashScreen(onGetStartedClick = {
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, DashboardActivity::class.java)) //lien ket toi class dashboardactivity
             })
         }
     }
