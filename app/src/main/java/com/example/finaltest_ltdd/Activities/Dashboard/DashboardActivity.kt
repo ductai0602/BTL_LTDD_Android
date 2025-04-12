@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,14 +40,14 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainScree()
+            MainScreen()
         }
     }
 }
 
 @Composable
 @Preview
-fun MainScree() {
+fun MainScreen() {
     val locations = remember { mutableStateListOf<LocationModel>() }
     val viewModel = MainViewModel()
     var showLocationLoading by remember { mutableStateOf(true) }
@@ -73,6 +73,85 @@ fun MainScree() {
             modifier = Modifier.fillMaxSize().background(color = colorResource(R.color.darkPurple2)).padding(paddingValues = paddingValues) //dieu chinh menu
         ) {
             item { TopBar() } //phan hien thi phia tren
+            item { //Phan noi dung
+                Column (modifier = Modifier
+                    .padding(32.dp)
+                    .background(colorResource(R.color.darkPurple), shape = RoundedCornerShape(20.dp))
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp, horizontal = 24.dp)
+                ) {
+                    //Chuyen tu Section(dia diem) nay
+                    YellowTitle("From")
+                    val locationName:List<String> = locations.map{it.Name} //Chon cac dia diem
+                    DropDownList(
+                        items = locationName,
+                        loadingIcon = painterResource(R.drawable.from_ic),
+                        hint = "Select Origin",
+                        showLocationLoading = showLocationLoading
+                    ) {
+                        selectedItem -> from = selectedItem
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    //Den Section(dia diem) nay
+                    YellowTitle("to")
+                    DropDownList(
+                        items = locationName,
+                        loadingIcon = painterResource(R.drawable.from_ic),
+                        hint = "Select Destination",
+                        showLocationLoading = showLocationLoading
+                    ) {
+                        selectedItem -> to = selectedItem
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    //So luong khach hang(passenger count)
+                    YellowTitle("Passengers")
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        //So luong nguoi lon
+                        PassengerCounter(
+                            title = "Adult",
+                            modifier = Modifier.weight(1f),
+                            onItemSelected = {adultPassenger = it}
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        //So luong nguoi tre
+                        PassengerCounter(
+                            title = "Child",
+                            modifier = Modifier.weight(1f),
+                            onItemSelected = {childPassenger = it}
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    //Thoi gian khoi hanh
+                    Row {
+                        YellowTitle("Departure date", Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(16.dp))
+                        YellowTitle("Return date", Modifier.weight(1f))
+                    }
+                    DatePickerScreen(Modifier.weight(1f))
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    //class(rank) Section
+                    YellowTitle("class")
+                    val classItems = listOf("Business class", "First class", "Economy class")
+                    DropDownList(
+                        items = classItems,
+                        loadingIcon = painterResource(R.drawable.seat_black_ic),
+                        hint = "Select Class",
+                        showLocationLoading = showLocationLoading
+                    ) {
+                        selectedItem -> classes = selectedItem
+                    }
+                }
+            }
         }
     }
 }
