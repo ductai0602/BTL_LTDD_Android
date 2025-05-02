@@ -1,5 +1,6 @@
 package com.example.finaltest_ltdd.Activities.Dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,7 +34,11 @@ import com.example.finaltest_ltdd.ViewModel.MainViewModel
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.core.content.ContextCompat.startActivity
+import com.example.finaltest_ltdd.Activities.Splash.GradientButton
+import com.example.finaltest_ltdd.Activities.SearchResult.SearchResultActivity
 
 class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +61,7 @@ fun MainScreen() {
     var classes:String = ""
     var adultPassenger: String = ""
     var childPassenger: String = ""
+    val context = LocalContext.current
 
     StatusTopBarColor()
 
@@ -129,15 +135,15 @@ fun MainScreen() {
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    //Thoi gian khoi hanh
+//                    Thoi gian khoi hanh
                     Row {
                         YellowTitle("Departure date", Modifier.weight(1f))
                         Spacer(modifier = Modifier.width(16.dp))
                         YellowTitle("Return date", Modifier.weight(1f))
                     }
                     DatePickerScreen(Modifier.weight(1f))
-
                     Spacer(modifier = Modifier.height(16.dp))
+
 
                     //class(rank) Section
                     YellowTitle("class")
@@ -150,6 +156,19 @@ fun MainScreen() {
                     ) {
                         selectedItem -> classes = selectedItem
                     }
+                    // Search Button
+                    Spacer(modifier = Modifier.height(16.dp))
+                    GradientButton(
+                        onClick={
+                            val intent= Intent(context, SearchResultActivity::class.java).apply {
+                                putExtra( "from", from)
+                                putExtra( "to", to)
+                                putExtra( "numPassenger",  adultPassenger+childPassenger)
+                            }
+                            startActivity(context, intent, null)
+                        },
+                        text="Search",
+                    )
                 }
             }
         }

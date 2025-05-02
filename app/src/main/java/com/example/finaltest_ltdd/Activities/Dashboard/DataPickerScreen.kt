@@ -5,6 +5,7 @@ import android.icu.util.Calendar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,8 +39,10 @@ import java.util.Locale
 fun DatePickerScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val dateFormat = remember { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()) }
+
     val departureCalendar = remember { Calendar.getInstance() }
     val returnCalendar = remember { Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 1) } }
+
     var departureDate by remember { mutableStateOf(dateFormat.format(departureCalendar.time)) }
     var returnDate by remember { mutableStateOf(dateFormat.format(returnCalendar.time)) }
 
@@ -76,7 +79,7 @@ fun DatePickerItem(
     context: Context
 ) {
     Row (
-        modifier = Modifier
+        modifier = modifier
             .height(60.dp)
             .padding(top = 8.dp)
             .background(
