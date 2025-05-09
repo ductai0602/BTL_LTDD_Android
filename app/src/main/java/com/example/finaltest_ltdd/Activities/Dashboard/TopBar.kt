@@ -17,10 +17,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.finaltest_ltdd.R
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 @Preview
 fun TopBar() {
+    val user = FirebaseAuth.getInstance().currentUser
+    val displayName = user?.displayName ?: "Người dùng"
+
     ConstraintLayout(
         modifier = Modifier.padding(horizontal = 32.dp).fillMaxWidth().wrapContentHeight()
     ) {
@@ -64,7 +68,7 @@ fun TopBar() {
 
         //gioi thieu ten
         Text(
-            text = "Alex Johnson",
+            text = "Xin chào, $displayName",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,

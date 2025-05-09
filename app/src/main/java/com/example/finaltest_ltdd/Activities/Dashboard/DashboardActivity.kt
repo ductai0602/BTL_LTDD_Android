@@ -1,10 +1,6 @@
 package com.example.finaltest_ltdd.Activities.Dashboard
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +23,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.finaltest_ltdd.Activities.Splash.StatusTopBarColor
 import com.example.finaltest_ltdd.Domain.LocationModel
 import com.example.finaltest_ltdd.R
 import com.example.finaltest_ltdd.ViewModel.MainViewModel
@@ -37,22 +32,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.core.content.ContextCompat.startActivity
-import com.example.finaltest_ltdd.Activities.Splash.GradientButton
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.finaltest_ltdd.Activities.SearchResult.SearchResultActivity
-
-class DashboardActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MainScreen()
-        }
-    }
-}
+import com.example.finaltest_ltdd.Activities.Splash.GradientButton
 
 @Composable
-@Preview
-fun MainScreen() {
+fun DashboardActivity(
+    navController: NavHostController
+) {
     val locations = remember { mutableStateListOf<LocationModel>() }
     val viewModel = MainViewModel()
     var showLocationLoading by remember { mutableStateOf(true) }
@@ -62,8 +50,6 @@ fun MainScreen() {
     var adultPassenger: String = ""
     var childPassenger: String = ""
     val context = LocalContext.current
-
-    StatusTopBarColor()
 
     LaunchedEffect(Unit) {
         viewModel.loadLocations().observeForever {result->
@@ -88,15 +74,16 @@ fun MainScreen() {
                 ) {
                     //Chuyen tu Section(dia diem) nay
                     YellowTitle("From")
-                    val locationName:List<String> = locations.map{it.Name} //Chon cac dia diem
+                    val locationName: List<String> = locations.map { it.Name }
                     DropDownList(
                         items = locationName,
                         loadingIcon = painterResource(R.drawable.from_ic),
                         hint = "Select Origin",
                         showLocationLoading = showLocationLoading
                     ) {
-                        selectedItem -> from = selectedItem
+                        selected -> from = selected
                     }
+
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -108,7 +95,7 @@ fun MainScreen() {
                         hint = "Select Destination",
                         showLocationLoading = showLocationLoading
                     ) {
-                        selectedItem -> to = selectedItem
+                        selected -> to = selected
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -183,4 +170,10 @@ fun YellowTitle(text:String, modifier: Modifier = Modifier) {
         color = colorResource(R.color.orange),
         modifier = modifier
     )
+}
+
+@Preview
+@Composable
+fun DashboardPreview(){
+    DashboardActivity(rememberNavController())
 }

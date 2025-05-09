@@ -5,9 +5,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.finaltest_ltdd.Activities.Splash.StatusTopBarColor
 import com.example.finaltest_ltdd.Activities.TicketDetail.TicketDetailActivity
 import com.example.finaltest_ltdd.Domain.FlightModel
 import com.example.finaltest_ltdd.R
@@ -22,7 +19,6 @@ class SeatSelectActivity : AppCompatActivity() {
         flight = intent.getSerializableExtra("flight") as FlightModel
 
         setContent {
-            StatusTopBarColor()
             SeatListScreen(
                 flight = flight,
                 onBackClick = {

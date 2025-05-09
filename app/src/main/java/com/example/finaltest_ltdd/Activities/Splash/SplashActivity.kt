@@ -1,11 +1,7 @@
 package com.example.finaltest_ltdd.Activities.Splash
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,29 +23,18 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.finaltest_ltdd.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.finaltest_ltdd.Activities.Dashboard.DashboardActivity
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.finaltest_ltdd.Activities.Login.Components.DontHaveAcc
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-
-class SplashActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            SplashScreen(onGetStartedClick = {
-                startActivity(Intent(this, DashboardActivity::class.java)) //lien ket toi class dashboardactivity
-            })
-        }
-    }
-}
-
 @Composable
-@Preview
-fun SplashScreen(onGetStartedClick:()-> Unit={}){
-    StatusTopBarColor()
+fun SplashActivity(
+    navController: NavHostController
+){
     Column(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout() {
-            val(backgroundImg, title, subtitle, starbtn)=createRefs()
+            val(backgroundImg, title, subtitle, signin, signup) = createRefs()
             Image(
                 painter = painterResource(R.drawable.splash_bg),
                 contentDescription = null,
@@ -58,22 +43,28 @@ fun SplashScreen(onGetStartedClick:()-> Unit={}){
                     start.linkTo(parent.start)
                 }.fillMaxSize()
             )
+
             val styledText = buildAnnotatedString {
-                append("Discover your\nDream")
-                withStyle(style = SpanStyle(color = colorResource(R.color.orange))){
-                    append(" Flight")
+                append("Discover your\n")
+                append("Dream ")
+                withStyle(SpanStyle(color = colorResource(R.color.orange))) {
+                    append("Flight")
                 }
                 append("\nEasily")
             }
+
             Text(
                 text = styledText,
-                fontSize = 53.sp,
+                fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.padding(top=32.dp).padding(horizontal = 16.dp).constrainAs(title){
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
+                lineHeight = 44.sp,
+                modifier = Modifier
+                    .padding(top = 64.dp, start = 24.dp) // chỉ cần padding start, không cần end
+                    .constrainAs(title) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start) // <-- Ràng buộc về trái
+                    }
             )
 
             Text(
@@ -87,22 +78,28 @@ fun SplashScreen(onGetStartedClick:()-> Unit={}){
                 }
             )
 
-            Box(modifier = Modifier.constrainAs(starbtn){
+            Box(modifier = Modifier.padding(bottom = 48.dp).constrainAs(signin){
                 bottom.linkTo(parent.bottom)
             }){
-                GradientButton(onClick = onGetStartedClick, "Get Started", 32)
+                GradientButton(onClick = {navController.navigate("login")},
+                    text = "Sign In With Email", 32)
+            }
+
+            Box(modifier = Modifier.padding(top = 16.dp).constrainAs(signup){
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }){
+                DontHaveAcc(onSignupTap = {
+                    navController.navigate("signup")
+                })
             }
         }
     }
 }
 
+@Preview
 @Composable
-fun StatusTopBarColor(){
-    val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = Color.Transparent,
-            darkIcons = false
-        )
-    }
+fun WelcomeScreenPreview() {
+    SplashActivity(rememberNavController())
 }

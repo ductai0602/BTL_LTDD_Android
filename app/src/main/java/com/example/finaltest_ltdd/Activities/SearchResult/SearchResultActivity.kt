@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.finaltest_ltdd.Activities.Splash.StatusTopBarColor
 import com.example.finaltest_ltdd.ViewModel.MainViewModel
 
 class SearchResultActivity : AppCompatActivity() {
@@ -20,7 +19,6 @@ class SearchResultActivity : AppCompatActivity() {
         to = intent.getStringExtra( "to") ?: ""
 
        setContent(){
-           StatusTopBarColor()
            ItemListScreen(
                from = from,
                to = to,

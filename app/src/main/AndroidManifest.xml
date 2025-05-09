@@ -22,10 +22,7 @@
             android:name=".Activities.SearchResult.SearchResultActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Dashboard.DashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Splash.SplashActivity"
+            android:name=".Activities.Login.MainLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

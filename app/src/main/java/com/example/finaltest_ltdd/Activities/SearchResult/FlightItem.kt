@@ -173,9 +173,5 @@ fun FlightItem(item: FlightModel,index: Int){
                     end.linkTo(toTxt.end)
                 }
         )
-
-
-
-
     }
 }
