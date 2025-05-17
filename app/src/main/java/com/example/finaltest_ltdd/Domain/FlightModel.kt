@@ -1,7 +1,9 @@
 package com.example.finaltest_ltdd.Domain
 
+import com.google.firebase.database.IgnoreExtraProperties
 import java.io.Serializable
 
+@IgnoreExtraProperties
 data class FlightModel(
     var AirlineLogo:String="",
     var AirlineName:String="",
